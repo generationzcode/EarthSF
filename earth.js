@@ -2,8 +2,6 @@ let gramsEarthSFUsed = 0;
 let pestsEliminated = 0;
 let sulfurRemnants = [];
 let earthSFeffectiveness = 0; // Track effectiveness of EarthSF
-
-
   let season = "Spring";
   let gameYear = 1;
   let money = 100;
@@ -207,7 +205,7 @@ let earthSFeffectiveness = 0; // Track effectiveness of EarthSF
 
     // Display status messages for player
     textAlign(LEFT);
-    if (season === "Spring") text("Drag sulfur over the field to apply it!", 20, height - 40);
+    if (season === "Spring") text("Drag EarthSF over the field to apply it!", 20, height - 40);
     if (season === "Summer") text("Click pests to eliminate them!", 20, height - 40);
     if (season === "Autumn") text("Tap leaves to harvest! Premium leaves earn more.", 20, height - 40);
   }
@@ -228,7 +226,7 @@ let earthSFeffectiveness = 0; // Track effectiveness of EarthSF
       fill(0);
       textSize(24);
       textAlign(CENTER, CENTER);
-      text("✅ Sulfur Applied! Your plants are protected.", width / 2, height / 2 - 50);
+      text("✅ EarthSF Applied! Your plants are protected.", width / 2, height / 2 - 50);
     }
   }
   function drawSulfurBag(x, y) {
@@ -358,7 +356,7 @@ let earthSFeffectiveness = 0; // Track effectiveness of EarthSF
       textWidth(`📅 Season: ${season}`),
       textWidth(`🗓 Year: ${gameYear}`),
       textWidth(`💰 Money: $${money}`),
-      textWidth(`🌿 Sulfur Used: ${gramsEarthSFUsed}g`),
+      textWidth(`🌿 EarthSF Used: ${gramsEarthSFUsed}g`),
       textWidth(`🐞 Pests Eliminated: ${pestsEliminated}`),
       textWidth(`🍃 Total Leaves: ${totalLeaves} (Premium: ${premiumLeaves})`)
     );
@@ -399,7 +397,7 @@ let earthSFeffectiveness = 0; // Track effectiveness of EarthSF
     text(`📅 Season: ${season}`, panelX + panelPadding, startY);
     text(`🗓 Year: ${gameYear}`, panelX + panelPadding, startY + ySpacing);
     text(`💰 Money: $${money}`, panelX + panelPadding, startY + 2 * ySpacing);
-    text(`🌿 Sulfur Used: ${gramsEarthSFUsed}g`, panelX + panelPadding, startY + 3 * ySpacing);
+    text(`🌿 EarthSF Used: ${gramsEarthSFUsed}g`, panelX + panelPadding, startY + 3 * ySpacing);
     text(`🐞 Pests Eliminated: ${pestsEliminated}`, panelX + panelPadding, startY + 4 * ySpacing);
     text(`🍃 Total Leaves: ${totalLeaves}`, panelX + panelPadding, startY + 5 * ySpacing);
   }
