@@ -40,12 +40,13 @@ let earthSFeffectiveness = 0; // Track effectiveness of EarthSF
       sulfurRemnants.push({ x, y, opacity: 255 }); // Track sulfur remnants with full opacity
       feedbackMessages.push("EarthSF applied!");
     }
-  }function displaySulfurRemnants() {
+  }
+  function displaySulfurRemnants() {
   for (let i = sulfurRemnants.length - 1; i >= 0; i--) {
     let remnant = sulfurRemnants[i];
     fill(255, 223, 0, remnant.opacity); // Yellow color with transparency
     noStroke();
-    rect(remnant.x - 5, remnant.y - 5, 10, 10); // Small 10x10 square
+    rect(remnant.x - 5, remnant.y - 5, 25, 25); // Small 10x10 square
 
     // Fade sulfur over time
     if (season === "Summer") {
@@ -145,7 +146,7 @@ let earthSFeffectiveness = 0; // Track effectiveness of EarthSF
     if (season === "Summer") {
       let pestCount = sulfurApplied ? 5 : maxPests;
       for (let i = 0; i < pestCount; i++) {
-        pests.push({ x: random(width), y: random(height / 2, height), speed: random(1, 3) });
+        pests.push({ x: random(width), y: random(height), speed: random(1, 3) });
       }
       reducePests();
     }
@@ -159,7 +160,7 @@ let earthSFeffectiveness = 0; // Track effectiveness of EarthSF
       for (let i = 0; i < 30; i++) {
         leaves.push({
           x: random(width),
-          y: random(height / 2, height),
+          y: random(height),
           isPremium: random() < premiumChance
         });
       }
@@ -213,7 +214,7 @@ let earthSFeffectiveness = 0; // Track effectiveness of EarthSF
 
   // Spring actions
   function drawSpring() {
-    drawSquare(mouseX, mouseY, 50, "Sulfur", "#FFD700");
+    drawSulfurBag(mouseX, mouseY);
 
     if (sulfurApplied) {
       sulfurEffectTimer--;
@@ -230,12 +231,65 @@ let earthSFeffectiveness = 0; // Track effectiveness of EarthSF
       text("✅ Sulfur Applied! Your plants are protected.", width / 2, height / 2 - 50);
     }
   }
+  function drawSulfurBag(x, y) {
+    let bagWidth = 80;
+    let bagHeight = 120;
+    let cornerRadius = 20;
 
+    // Base bag color
+    fill(240, 220, 140);
+    stroke(180, 150, 90);
+    strokeWeight(3);
+    rect(x - bagWidth / 2, y - bagHeight / 2, bagWidth, bagHeight, cornerRadius);
+
+    // Add shading for depth
+    noStroke();
+    fill(220, 200, 120, 120);
+    quad(x - bagWidth / 2, y - bagHeight / 2,
+         x - bagWidth / 2 + 20, y - bagHeight / 2 + 20,
+         x - bagWidth / 2 + 20, y + bagHeight / 2 - 20,
+         x - bagWidth / 2, y + bagHeight / 2);
+
+    // Highlight on top right
+    fill(255, 240, 180, 80);
+    quad(x + bagWidth / 2, y - bagHeight / 2,
+         x + bagWidth / 2 - 20, y - bagHeight / 2 + 20,
+         x + bagWidth / 2 - 20, y + bagHeight / 2 - 20,
+         x + bagWidth / 2, y + bagHeight / 2);
+
+    // Draw the label
+    fill(250, 250, 180);
+    stroke(180, 150, 90);
+    strokeWeight(2);
+    rect(x - 30, y - 20, 60, 40, 8);
+
+    // Text on the label
+    fill(0);
+    textSize(14);
+    textAlign(CENTER, CENTER);
+    text("EARTH SF", x, y);
+
+    // Stitching effect
+    stroke(180, 150, 90);
+    strokeWeight(2);
+    for (let i = -35; i <= 35; i += 10) {
+      line(x + i, y - bagHeight / 2 + 10, x + i + 5, y - bagHeight / 2 + 10);
+      line(x + i, y + bagHeight / 2 - 10, x + i + 5, y + bagHeight / 2 - 10);
+    }
+
+    // Top sealing - bag fold
+    fill(220, 180, 100);
+    rect(x - bagWidth / 2, y - bagHeight / 2 - 10, bagWidth, 20, 8);
+
+    // Add a small shadow below
+    fill(0, 0, 0, 40);
+    ellipse(x, y + bagHeight / 2 + 10, bagWidth * 0.8, 20);
+  }
   // Summer actions
   function drawSummer() {
     fill(200, 0, 0);
     for (let pest of pests) {
-      image(beetle,pest.x, pest.y, 40,40);
+      image(beetle,pest.x, pest.y, 120,120);
       pest.x += random(-1, 1) * pest.speed;
       pest.y += random(-1, 1) * pest.speed;
     }
@@ -249,7 +303,7 @@ let earthSFeffectiveness = 0; // Track effectiveness of EarthSF
   function drawAutumn() {
     for (let leaf of leaves) {
       fill(leaf.isPremium ? "gold" : "green");
-      ellipse(leaf.x, leaf.y, 20);
+      image(plant, leaf.x, leaf.y, 80,80);
     }
   }
   function evaluateHarvest() {
@@ -270,11 +324,11 @@ let earthSFeffectiveness = 0; // Track effectiveness of EarthSF
       : 0;
 
     // Display the winter summary
-    text(`Winter Summary:`, width / 2, height / 2 - 100);
-    text(`🌿 Yield Improvement (Premium Leaves): ${yieldImprovement.toFixed(1)}%`, width / 2, height / 2 - 60);
-    text(`🐞 Pests Eliminated: ${pestsEliminated}`, width / 2, height / 2 - 20);
-    text(`🍃 Premium Leaves: ${premiumLeaves}`, width / 2, height / 2 + 20);
-    text(`💰 Total Money Earned: $${money}`, width / 2, height / 2 + 60);
+    text(`Winter Summary:`, width / 2, height / 2 - 20);
+    text(`🌿 Yield Improvement (Premium Leaves): ${yieldImprovement.toFixed(1)}%`, width / 2, height / 2 +20);
+    text(`🐞 Pests Eliminated: ${pestsEliminated}`, width / 2, height / 2 + 60);
+    text(`🍃 Premium Leaves: ${premiumLeaves}`, width / 2, height / 2 + 100);
+    text(`💰 Total Money Earned: $${money}`, width / 2, height / 2 + 140);
   }
 
   // Update season timer and transition
@@ -288,8 +342,8 @@ let earthSFeffectiveness = 0; // Track effectiveness of EarthSF
   }
 
   function preload() {
-    plant = loadImage('plant1.png');
-    beetle = loadImage('beetle.png');
+    plant = loadImage('https://generationzcode.github.io/EarthSF/plant1.png');
+    beetle = loadImage('https://generationzcode.github.io/EarthSF/beetle.png');
   }
   let feedbackMessages = []; // New feedback array
   function displayFeedback() {
@@ -361,7 +415,7 @@ let earthSFeffectiveness = 0; // Track effectiveness of EarthSF
 
     if (season === "Summer") {
       for (let i = pests.length - 1; i >= 0; i--) {
-        if (dist(mouseX, mouseY, pests[i].x, pests[i].y) < 40) {
+        if (dist(mouseX, mouseY, pests[i].x, pests[i].y) < 100) {
           pests.splice(i, 1);
           pestsEliminated++;
         }
@@ -370,7 +424,7 @@ let earthSFeffectiveness = 0; // Track effectiveness of EarthSF
 
     if (season === "Autumn") {
       for (let i = leaves.length - 1; i >= 0; i--) {
-        if (dist(mouseX, mouseY, leaves[i].x, leaves[i].y) < 20) {
+        if (dist(mouseX, mouseY, leaves[i].x, leaves[i].y) < 80) {
           totalLeaves++;
           if (leaves[i].isPremium) {
             premiumLeaves++;
